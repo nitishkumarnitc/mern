@@ -50,7 +50,9 @@ class AddEmployee extends Component {
             ],
             profile_image_url: '',
             completed: false,
-            is_uploading: false
+            is_uploading: false,
+            errorMessage:'',
+            message:''
         }
     }
 
@@ -142,11 +144,13 @@ class AddEmployee extends Component {
         }
         console.log(`Form submitted: ${JSON.stringify(employee)}`);
         axios.post(APP_CONSTANTS.SERVER_URL + '/employees/add', employee)
-            .then(res => console.log(res.data));
+            .then(res => {
+                    this.setState({errorMessage:'',message:res.data.employee,completed:true})
 
-        this.setState({
-            completed: false
-        })
+            }).catch(error=>{
+                console.log("error ",error.response)
+                this.setState({errorMessage:error.response.data.message,completed:true,message:''})
+        });
     }
 
     render() {
@@ -207,13 +211,29 @@ class AddEmployee extends Component {
                         {this.state.is_uploading && <span>Image Uploading</span>}
                     </div>
 
-                    <div className="form-group">
+                    {this.state.profile_image_url && <div className="form-group">
                         <label>Profile Pic : </label>
-                        <img
-                            src={APP_CONSTANTS.SERVER_URL + "/images/" + this.state.profile_image_url}
+                        <img style={{width: "50px", height: "50px"}}
+                             src={APP_CONSTANTS.SERVER_URL + "/images/" + this.state.profile_image_url}
                         />
 
                     </div>
+                    }
+
+                    {this.state.errorMessage &&
+                        <div className="form-group">
+                            <label>Error </label>
+                            <span style={{color:"red"}}> {this.state.errorMessage} </span>
+
+                        </div>
+                    }
+
+                    {this.state.message &&
+                        <div className="form-group">
+                            <label>Message </label>
+                            <span style={{color:"green"}}> {this.state.message} </span>
+                        </div>
+                    }
 
                     <div className="form-group">
                         <input type="submit" value="Add New Employee" className="btn btn-primary"/>

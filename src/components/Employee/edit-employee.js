@@ -135,9 +135,13 @@ class EditEmployee extends Component {
             profile_image_url: this.state.profile_image_url,
         }
         axios.post(APP_CONSTANTS.SERVER_URL + '/employees/update/' + this.props.match.params.id, employee)
-            .then(res => console.log(res.data));
+            .then(res => {
+                console.log(res.data)
+                this.props.history.push('/');
+            });
 
-        this.props.history.push('/');
+
+
     }
 
     render() {
@@ -198,13 +202,13 @@ class EditEmployee extends Component {
                         {this.state.is_uploading && <span>Image Uploading</span>}
                     </div>
 
-                    <div className="form-group">
+                    {this.state.profile_image_url && <div className="form-group">
                         <label>Profile Pic : </label>
-                        <img
-                            src={APP_CONSTANTS.SERVER_URL + "/images/" + this.state.profile_image_url}
+                        <img style={{width:"50px",height:"50px"}}
+                             src={APP_CONSTANTS.SERVER_URL + "/images/" + this.state.profile_image_url}
                         />
 
-                    </div>
+                    </div>}
 
                     <div className="form-group">
                         <input type="submit" value="Update Employee" className="btn btn-primary"/>
