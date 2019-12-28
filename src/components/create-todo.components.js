@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import axios from 'axios';
+import APP_CONSTANTS from './../constants'
 
 export default class CreateTodo extends Component {
 
@@ -53,7 +54,7 @@ export default class CreateTodo extends Component {
             todo_completed: this.state.todo_completed
         }
 
-        axios.post('http://localhost:4000/todos/add', newTodo)
+        axios.post(APP_CONSTANTS.SERVER_URL+'/todos/add', newTodo)
             .then(res => console.log(res.data));
 
         this.setState({

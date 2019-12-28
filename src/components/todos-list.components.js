@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-
+import APP_CONSTANTS from './../constants'
 const Todo = props => (
     <tr>
         <td className={props.todo.todo_completed ? 'completed' : ''}>{props.todo.todo_description}</td>
@@ -21,7 +21,7 @@ export default class TodosList extends Component {
     }
 
     componentDidMount() {
-        axios.get('http://localhost:4000/todos/')
+        axios.get(APP_CONSTANTS.SERVER_URL+'/todos/')
             .then(response => {
                 this.setState({todos: response.data});
             })
@@ -31,7 +31,7 @@ export default class TodosList extends Component {
     }
 
     componentDidUpdate() {
-        axios.get('http://localhost:4000/todos/')
+        axios.get(APP_CONSTANTS.SERVER_URL+'/todos/')
             .then(response => {
                 this.setState({todos: response.data});
             })
