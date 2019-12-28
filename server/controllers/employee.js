@@ -37,5 +37,13 @@ module.exports = {
             .catch(err => {
                 res.status(400).send("Update not possible");
             });
-    }
+    },
+    deleteEmployee:function (req, res) {
+        EmployeeService.deleteEmployee(req.params.id).then(() => {
+            res.json('employee deleted');
+        })
+            .catch(err => {
+                res.status(400).send("Delete not possible");
+            });
+    },
 }

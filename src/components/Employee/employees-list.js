@@ -17,7 +17,7 @@ const Employee = props => (
             <Link to={"/edit/" + props.employee._id}>Edit</Link>
         </td>
         <td>
-            <Link to={props.employee._id}>Delete</Link>
+            <a onClick={props.deleteEmployee(props.employee._id)}>Delete</a>
         </td>
     </tr>
 )
@@ -29,7 +29,19 @@ export default class EmployeeList extends Component {
         this.state = {employees: []};
     }
 
-    componentDidMount() {
+    deleteEmployee=(id)=>{
+        var that=this;
+        axios.delete(APP_CONSTANTS.SERVER_URL + '/employees/')
+            .then(response => {
+                that.getEmployees();
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+    }
+
+
+    getEmployees=function(){
         axios.get(APP_CONSTANTS.SERVER_URL + '/employees/')
             .then(response => {
                 this.setState({employees: response.data});
@@ -38,11 +50,15 @@ export default class EmployeeList extends Component {
                 console.log(error);
             })
     }
+    componentDidMount() {
+        this.getEmployees();
+    }
 
 
     employeesList() {
+        var that=this;
         return this.state.employees.map(function (employee, i) {
-            return <Employee employee={employee} key={i}/>;
+            return <Employee employee={employee} key={i} deleteEmployee={that.deleteEmployee} />;
         });
     }
 

@@ -7,6 +7,7 @@ employeeRoutes.route('/').get(emploeesController.searchEmployees);
 employeeRoutes.route('/:id').get(emploeesController.getEmployeeById);
 
 employeeRoutes.route('/add').post(emploeesController.addEmployee);
+employeeRoutes.route('/add').delete(emploeesController.deleteEmployee);
 
 employeeRoutes.route('/update/:id').post(emploeesController.updateEmployee);
 

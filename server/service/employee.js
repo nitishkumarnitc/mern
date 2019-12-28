@@ -63,5 +63,17 @@ module.exports = {
             });
         })
 
+    },
+    deleteEmployee: function (id) {
+        return new Promise((resolve, reject) => {
+            Employee.remove(id, function (err) {
+                if (err)
+                    reject(err)
+                else
+                   resolve()
+            });
+        })
+
     }
+
 }
